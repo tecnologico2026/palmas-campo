@@ -18,6 +18,11 @@
   </style>
 </head>
 <body>
+  <div id="abriendo" style="display:none">
+    <h1>Abriendo lo guardado…</h1>
+    <p>No hay señal: se abre la copia guardada en el celular.</p>
+  </div>
+  <div id="fallo">
   <h1>No se pudo abrir la plataforma</h1>
   <p>El celular no tiene las pantallas guardadas y en este momento no hay señal.</p>
 
@@ -27,11 +32,31 @@
     <li>Si vuelve a fallar: cierra la app por completo y ábrela de nuevo.</li>
   </ol>
 
-  <button onclick="history.back()">Reintentar</button>
+  <button onclick="abrir(true)">Reintentar</button>
 
   <p class="nota">
     Para que esto no pase, el celular debe abrirse una vez con wifi <em>antes</em> de salir
     a campo: ahí es cuando guarda las pantallas para trabajar sin señal.
   </p>
+  </div>
+  <script>
+    // Sin señal, el arranque en frío de la APK cae aquí aunque el celular tenga la pantalla
+    // guardada (el service worker aún no atiende esa primera carga). Volver a pedir la dirección
+    // desde aquí sí abre la copia guardada. Se intenta solo hasta 2 veces seguidas para no
+    // quedar en un bucle si de verdad no hay nada guardado.
+    function abrir(aMano) {
+      var url = window.PalmasApp && PalmasApp.servidor && PalmasApp.servidor();
+      if (!url) { if (aMano) history.back(); return; }
+      var ahora = Date.now(), ult = +(sessionStorage.getItem('palmas-ult') || 0);
+      var n = (ahora - ult > 30000 || aMano) ? 0 : +(sessionStorage.getItem('palmas-n') || 0);
+      if (n >= 2) return;
+      sessionStorage.setItem('palmas-n', n + 1);
+      sessionStorage.setItem('palmas-ult', ahora);
+      document.getElementById('abriendo').style.display = '';
+      document.getElementById('fallo').style.display = 'none';
+      setTimeout(function () { location.replace(url); }, 600);
+    }
+    abrir(false);
+  </script>
 </body>
 </html>
