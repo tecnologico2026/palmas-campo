@@ -39,10 +39,10 @@ jobs:
         run: |
           cd android
           chmod +x ./gradlew
-          ./gradlew assembleDebug --no-daemon
+          ./gradlew assembleCampoDebug assembleRecorridoAuxiliarDebug --no-daemon
 
       - name: Renombrar el APK
-        run: cp android/app/build/outputs/apk/debug/app-debug.apk palmas-recorrido.apk
+        run: cp android/app/build/outputs/apk/campo/debug/app-campo-debug.apk palmas-recorrido.apk && cp android/app/build/outputs/apk/recorridoAuxiliar/debug/app-recorridoAuxiliar-debug.apk recorrido-auxiliar.apk
 
       - name: Publicar el APK (link fijo de descarga)
         uses: softprops/action-gh-release@v2
@@ -50,15 +50,22 @@ jobs:
           tag_name: build-${{ github.run_number }}
           name: Palmas Recorrido (build ${{ github.run_number }})
           make_latest: true
-          files: palmas-recorrido.apk
+          files: |
+            palmas-recorrido.apk
+            recorrido-auxiliar.apk
           body: |
             APK de prueba de la app **Palmas Recorrido**.
 
             **Descargar (link fijo, siempre la última versión):**
             https://github.com/${{ github.repository }}/releases/latest/download/palmas-recorrido.apk
 
+            **Recorrido Auxiliar** (auxiliar de polinización):
+            https://github.com/${{ github.repository }}/releases/latest/download/recorrido-auxiliar.apk
+
       - name: Guardar también como artefacto
         uses: actions/upload-artifact@v4
         with:
           name: palmas-recorrido-apk
-          path: palmas-recorrido.apk
+          path: |
+            palmas-recorrido.apk
+            recorrido-auxiliar.apk

@@ -1,0 +1,19 @@
+{
+  "appId": "com.palmas.recorridoauxiliar",
+  "appName": "Recorrido Auxiliar",
+  "webDir": "www",
+  "server": {
+    "allowNavigation": [
+      "palmas-34g66bccva-uc.a.run.app",
+      "*.trycloudflare.com",
+      "192.168.*",
+      "10.*",
+      "127.0.0.1"
+    ],
+    "errorPath": "error.html"
+  },
+  "android": {
+    "allowMixedContent": true,
+    "appendUserAgent": "PalmasRecorridoAuxiliarAPK"
+  }
+}
