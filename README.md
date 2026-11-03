@@ -55,11 +55,27 @@ servidor falla. Graban el recorrido y lo exportan a GPX sin tocar la plataforma:
 **A mano, en local** — el CI está escrito pero inactivo: el workflow vive en `build.yml.pending`
 en la raíz porque el token de `gh` no tiene el scope `workflow`.
 
+El proyecto compila **dos apps** (product flavors en `android/app/build.gradle`):
+
+| Flavor | App | Id | Abre |
+|---|---|---|---|
+| `campo` | Palmas Campo | `com.palmas.campo.dev` | `/labores/m/polinizacion/menu/` |
+| `recorridoAuxiliar` | Recorrido Auxiliar | `com.palmas.recorridoauxiliar` | `/labores/m/polinizacion/recorrido-auxiliar/` |
+
+Las dos comparten el código (WebView + GPS de fondo + pantalla «Servidor»); cambian id, nombre,
+dirección por defecto y marca del User-Agent (`PalmasCampoAPK` / `PalmasRecorridoAuxiliarAPK`).
+Lo propio de Recorrido Auxiliar vive en `android/app/src/recorridoAuxiliar/`. Ids distintos:
+conviven en el mismo celular.
+
 ```bash
 npx cap sync android
-cd android && ./gradlew assembleDebug
-cp app/build/outputs/apk/debug/app-debug.apk ../palmas-campo.apk
+cd android && ./gradlew assembleCampoDebug assembleRecorridoAuxiliarDebug
+cp app/build/outputs/apk/campo/debug/app-campo-debug.apk ../palmas-campo.apk
+cp app/build/outputs/apk/recorridoAuxiliar/debug/app-recorridoAuxiliar-debug.apk ../recorrido-auxiliar.apk
 ```
+
+Para repartirlas en campo hay que firmarlas con la llave de release de la empresa
+(`assembleCampoRelease` / `assembleRecorridoAuxiliarRelease` + `signingConfigs`).
 
 Para activar el CI: `gh auth refresh -h github.com -s workflow`, luego mover
 `build.yml.pending` a `.github/workflows/build.yml` y hacer push.
