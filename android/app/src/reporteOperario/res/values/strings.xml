@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- App «Reporte Operario»: reemplaza los nombres de Palmas Campo (src/main) en esta variante. -->
+<resources>
+    <string name="app_name">Reporte Operario</string>
+    <string name="title_activity_main">Reporte Operario</string>
+    <string name="package_name">com.palmas.reporteoperario</string>
+    <string name="custom_url_scheme">com.palmas.reporteoperario</string>
+</resources>

@@ -14,7 +14,7 @@ import android.content.SharedPreferences;
 public final class ServidorConfig {
 
     /** Producción. Es lo que usan los celulares de campo mientras nadie toque nada. Cada app
-     *  (flavor de build.gradle) abre su pantalla: el menú de polinización o el recorrido del auxiliar. */
+     *  (flavor de build.gradle) abre su pantalla: el menú de polinización, el recorrido del auxiliar o el reporte del operario. */
     public static final String URL_POR_DEFECTO = BuildConfig.URL_POR_DEFECTO;
 
     private static final String PREFS = "palmas_servidor";
