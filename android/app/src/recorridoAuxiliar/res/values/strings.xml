@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- App «Recorrido Auxiliar»: reemplaza los nombres de Palmas Campo (src/main) en esta variante. -->
+<resources>
+    <string name="app_name">Recorrido Auxiliar</string>
+    <string name="title_activity_main">Recorrido Auxiliar</string>
+    <string name="package_name">com.palmas.recorridoauxiliar</string>
+    <string name="custom_url_scheme">com.palmas.recorridoauxiliar</string>
+</resources>

@@ -18,6 +18,32 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    buildFeatures {
+        buildConfig true
+    }
+    // Tres apps del mismo proyecto. «campo» = Palmas Campo tal como estaba (assembleCampoDebug).
+    // «recorridoAuxiliar» = app del auxiliar de polinización: GPS del día + contador calle a calle
+    // (assembleRecorridoAuxiliarDebug). «reporteOperario» = app del operario de polinización:
+    // entra con su código y reporta sus calles con el GPS del día (assembleReporteOperarioDebug).
+    // Ids distintos: conviven en el mismo celular.
+    flavorDimensions "app"
+    productFlavors {
+        campo {
+            dimension "app"
+            applicationId "com.palmas.campo.dev"
+            buildConfigField "String", "URL_POR_DEFECTO", '"https://palmas-34g66bccva-uc.a.run.app/labores/m/polinizacion/menu/"'
+        }
+        recorridoAuxiliar {
+            dimension "app"
+            applicationId "com.palmas.recorridoauxiliar"
+            buildConfigField "String", "URL_POR_DEFECTO", '"https://palmas-34g66bccva-uc.a.run.app/labores/m/polinizacion/recorrido-auxiliar/"'
+        }
+        reporteOperario {
+            dimension "app"
+            applicationId "com.palmas.reporteoperario"
+            buildConfigField "String", "URL_POR_DEFECTO", '"https://palmas-34g66bccva-uc.a.run.app/labores/m/polinizacion/reporte-operario/"'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.webkit.JavascriptInterface;
 
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.CapConfig;
@@ -34,6 +35,18 @@ public class MainActivity extends BridgeActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pedirPermisoDeNotificaciones();
+        // La pantalla de error (www/error.html) necesita saber a qué servidor volver: sin señal,
+        // el arranque en frío falla ANTES de que el service worker sirva la copia guardada, pero
+        // si la página navega otra vez a la dirección, sí abre lo guardado (y con el GPS nativo).
+        getBridge().getWebView().addJavascriptInterface(new Servidor(), "PalmasApp");
+    }
+
+    /** Solo expone la dirección configurada (no es un secreto: es la URL que carga la app). */
+    private class Servidor {
+        @JavascriptInterface
+        public String servidor() {
+            return ServidorConfig.url(MainActivity.this);
+        }
     }
 
     /**
